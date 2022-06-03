@@ -4,8 +4,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody rb;
 
-    // public float forwardForce = 1000f;
-    public float moveSpeed = 3;
+    public float forwardForce = 1000f;
+    //public float moveSpeed = 3;
     public float sidewaysForce = 100f;
 
     // It is better to make physic call in FixedUpdate rather than Update
@@ -18,10 +18,10 @@ public class PlayerMovement : MonoBehaviour
         // Multiply by deltaTime which is the amount of time from the update call. Thus we are not
         // Dependent on the fps of the computer
 
-        //rb.AddForce(0, 0, forwardForce * Time.deltaTime);
+        rb.AddForce(0, 0, forwardForce * Time.deltaTime);
 
-        transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
-        moveSpeed += 0.01f;
+        //transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
+        //moveSpeed += 0.01f;
 
 
 

@@ -4,29 +4,38 @@ using UnityEngine;
 
 public class GenerateLevel : MonoBehaviour
 {
-    public int zPos = 50;
-    public bool creatingSection = false;
-    public GameObject ground;
-    public Transform player;
+    private Transform playerTransform;
 
-    // Update is called once per frame
-    void Update()
+    public GameObject[] groundPrefab;
+    public float zPos = 10;
+    public float groundLength = 25;
+    public int amountOfGround = 7;
+
+    private void Start()
     {
-        if (creatingSection == false)
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        // I want to create 7 platforms
+        for (int i = 0; i < amountOfGround; i++)
         {
-            creatingSection = true;
-            StartCoroutine(GenerateSection());
+            SpawnGround();
         }
     }
 
-    // Generate a new ground which will also call obstacle generation
-    IEnumerator GenerateSection()
+    // Update is called once per frame
+    private void Update()
     {
-        // Create ground
-        Instantiate(ground, new Vector3(0, 0, zPos), Quaternion.identity);
-        // Shift the generation to be 50 from the end
-        zPos += 50;
-        yield return new WaitUntil(() => player.position.z > zPos - 100);
-        creatingSection = false;
+        if(playerTransform.position.z > (zPos - amountOfGround * groundLength))
+        {
+            SpawnGround();
+        }
+    }
+
+    private void SpawnGround(int prefabIndex = -1)
+    {
+        GameObject go;
+        go = Instantiate(groundPrefab[0]) as GameObject;
+        go.transform.SetParent(transform);
+        go.transform.position = Vector3.forward * zPos;
+        zPos += groundLength;
     }
 }
